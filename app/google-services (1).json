@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "186174777510",
+    "firebase_url": "https://standby-test.firebaseio.com",
+    "project_id": "standby-test",
+    "storage_bucket": "standby-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186174777510:android:759018d93a3e71849c6c67",
+        "android_client_info": {
+          "package_name": "com.e.martineetalk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186174777510-c8ave9shf8rpt0ugop5u8taoo24jgcb0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD24OZnCX21opb6A4c2Flb8wGZ8ClPV9Pk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "186174777510-c8ave9shf8rpt0ugop5u8taoo24jgcb0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
