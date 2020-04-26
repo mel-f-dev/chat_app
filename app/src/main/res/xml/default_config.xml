@@ -6,6 +6,14 @@
         <value>#ffffff</value>
     </entry>
     <entry>
+        <key>default_background</key>
+        <value>#ffffff</value>
+    </entry>
+    <entry>
+        <key>button_background</key>
+        <value>#0f4c81</value>
+    </entry>
+    <entry>
         <key>splash_message_caps</key>
         <value>false</value>
     </entry>
