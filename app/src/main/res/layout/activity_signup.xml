@@ -25,6 +25,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/signup_selectphoto_imgview"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/signup_selectphoto_btn"
+        app:layout_constraintEnd_toEndOf="@+id/signup_selectphoto_btn"
+        app:layout_constraintStart_toStartOf="@+id/signup_selectphoto_btn"
+        app:layout_constraintTop_toTopOf="@+id/signup_selectphoto_btn">
+
+    </de.hdodenhof.circleimageview.CircleImageView>
+
     <EditText
         android:id="@+id/signup_edittext_name"
         android:layout_width="0dp"
