@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_signup.*
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var remoteConfig: FirebaseRemoteConfig
-    private lateinit var auth: FirebaseAuth
+    private var auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +39,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         signup_btn.setOnClickListener {
-            val signupIntent = Intent(this, SignupActivity::class.java)
-            startActivity(signupIntent)
+            val registerIntent = Intent(this, RegisterActivity::class.java)
+            startActivity(registerIntent)
         }
     }
 }

@@ -18,10 +18,14 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_signup.*
 import java.util.*
 
-class SignupActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
+    
+    companion object {
+        val TAG = "REgisterActivity"
+    }
 
     private lateinit var remoteConfig: FirebaseRemoteConfig
-    private lateinit var auth: FirebaseAuth
+    private var auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +42,7 @@ class SignupActivity : AppCompatActivity() {
         }
 
         already_have_account_textview.setOnClickListener {
-            Log.d("SignupActivity", "Try to show login activity")
+            Log.d(TAG, "Try to show login activity")
 
             // launch the login activity somehow
             val loginIntent = Intent(this, LoginActivity::class.java)
@@ -46,7 +50,7 @@ class SignupActivity : AppCompatActivity() {
         }
 
         signup_selectphoto_btn.setOnClickListener {
-            Log.d("SignupActivity", "Try to show photo selector")
+            Log.d(TAG, "Try to show photo selector")
 
             val photoIntent = Intent(Intent.ACTION_PICK)
             photoIntent.type = "image/*"
@@ -61,7 +65,7 @@ class SignupActivity : AppCompatActivity() {
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
             // proceed and check what the selected image was...
-            Log.d("SignupActivity", "Photo was selected")
+            Log.d(TAG, "Photo was selected")
 
             selectedPhotoUri = data.data
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
@@ -77,15 +81,13 @@ class SignupActivity : AppCompatActivity() {
         val email = signup_edittext_email.text.toString()
         val password = signup_edittext_pw.text.toString()
 
-        auth = FirebaseAuth.getInstance()
-
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "모든 칸을 채워주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        Log.d("SignupActivity", "email: $email")
-        Log.d("SignupActivity", "password: $password")
+        Log.d(TAG, "email: $email")
+        Log.d(TAG, "password: $password")
 
         // Firebase Authentication to create a user with email and password
         auth.createUserWithEmailAndPassword(email, password)
@@ -93,12 +95,12 @@ class SignupActivity : AppCompatActivity() {
                 if (!it.isSuccessful) return@addOnCompleteListener
 
                 //else if successful
-                Log.d("SignupActivity", "Successfully created user with uid: ${it.result?.user?.uid}")
+                Log.d(TAG, "Successfully created user with uid: ${it.result?.user?.uid}")
 
                 uploadImageToFirebaseStorage()
             }
             .addOnFailureListener {
-                Log.d("SignupActivity", "Failed to create user: ${it.message}")
+                Log.d(TAG, "Failed to create user: ${it.message}")
                 Toast.makeText(this, "회원가입 실패: ${it.message}.", Toast.LENGTH_SHORT).show()
             }
     }
@@ -110,11 +112,11 @@ class SignupActivity : AppCompatActivity() {
 
         ref.putFile(selectedPhotoUri!!)
             .addOnSuccessListener {
-                Log.d("SignupActivity", "Successfully uploaded image: ${it.metadata?.path}")
+                Log.d(TAG, "Successfully uploaded image: ${it.metadata?.path}")
 
                 ref.downloadUrl.addOnSuccessListener {
                     it.toString()
-                    Log.d("SignupActivity", "File Location: $it")
+                    Log.d(TAG, "File Location: $it")
 
                     saveUserToFirebaseDatabase(it.toString())
                 }
@@ -131,9 +133,15 @@ class SignupActivity : AppCompatActivity() {
 
         ref.setValue(user)
             .addOnSuccessListener {
-                Log.d("SignupActivity", "Finally we saved the user to Firebase Database")
+                Log.d(TAG, "Finally we saved the user to Firebase Database")
+
+                val latestMessagesIntent = Intent(this, LatestMessagesActivity::class.java)
+                latestMessagesIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(latestMessagesIntent)
             }
     }
 }
 
-class User(val uid: String, val username: String, val profileImageUri: String)
+class User(val uid: String, val username: String, val profileImageUri: String) {
+    constructor(): this("", "", "")
+}

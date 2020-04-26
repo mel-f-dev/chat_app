@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_new_message"
+        android:title="새메시지"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_log_out"
+        android:title="로그아웃"
+        app:showAsAction="ifRoom"/>
+
+
+</menu>
