@@ -1,15 +1,21 @@
 package com.e.martineetalk
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_signup.*
+import java.util.*
 
 class SignupActivity : AppCompatActivity() {
 
@@ -37,6 +43,32 @@ class SignupActivity : AppCompatActivity() {
             val loginIntent = Intent(this, LoginActivity::class.java)
             startActivity(loginIntent)
         }
+
+        signup_selectphoto_btn.setOnClickListener {
+            Log.d("SignupActivity", "Try to show photo selector")
+
+            val photoIntent = Intent(Intent.ACTION_PICK)
+            photoIntent.type = "image/*"
+            startActivityForResult(photoIntent, 0)
+        }
+    }
+
+    var selectedPhotoUri: Uri? = null
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+            // proceed and check what the selected image was...
+            Log.d("SignupActivity", "Photo was selected")
+
+            selectedPhotoUri = data.data
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
+            val bitmapDrawable = BitmapDrawable(bitmap)
+
+            signup_selectphoto_btn.setBackgroundDrawable(bitmapDrawable)
+
+        }
     }
 
     private fun performResgister() {
@@ -59,11 +91,24 @@ class SignupActivity : AppCompatActivity() {
                 if (!it.isSuccessful) return@addOnCompleteListener
 
                 //else if successful
-                Log.d("RegisterActivity", "Successfully created user with uid: ${it.result?.user?.uid}")
+                Log.d("SignupActivity", "Successfully created user with uid: ${it.result?.user?.uid}")
+
+                uploadImageToFirebaseStorage()
             }
             .addOnFailureListener {
                 Log.d("SignupActivity", "Failed to create user: ${it.message}")
                 Toast.makeText(this, "회원가입 실패: ${it.message}.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun uploadImageToFirebaseStorage() {
+        if (selectedPhotoUri == null) return
+        val filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+
+        ref.putFile(selectedPhotoUri!!)
+            .addOnSuccessListener {
+                Log.d("SignupActivity", "Successfully uploaded image: ${it.metadata?.path}")
             }
     }
 }
