@@ -1,16 +1,17 @@
-package com.e.martineetalk
+package com.e.martineetalk.registerlogin
 
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
-import com.google.android.material.tabs.TabLayout
+import com.e.martineetalk.R
+import com.e.martineetalk.messages.LatestMessagesActivity
+import com.e.martineetalk.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -129,7 +130,11 @@ class RegisterActivity : AppCompatActivity() {
     private fun saveUserToFirebaseDatabase(profileImageUri: String) {
         val uid = auth.uid?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-        val user = User(uid, signup_edittext_name.text.toString(), profileImageUri)
+        val user = User(
+            uid,
+            signup_edittext_name.text.toString(),
+            profileImageUri
+        )
 
         ref.setValue(user)
             .addOnSuccessListener {
@@ -142,6 +147,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 }
 
-class User(val uid: String, val username: String, val profileImageUri: String) {
-    constructor(): this("", "", "")
-}
+//class User(val uid: String, val username: String, val profileImageUri: String) {
+//    constructor(): this("", "", "")
+//}
