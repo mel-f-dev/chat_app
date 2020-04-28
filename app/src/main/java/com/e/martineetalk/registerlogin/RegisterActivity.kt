@@ -16,13 +16,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.activity_signup.*
+import kotlinx.android.synthetic.main.activity_register.*
 import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
     
     companion object {
-        val TAG = "REgisterActivity"
+        val TAG = "RegisterActivity"
     }
 
     private lateinit var remoteConfig: FirebaseRemoteConfig
@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup)
+        setContentView(R.layout.activity_register)
 
         remoteConfig = FirebaseRemoteConfig.getInstance()
         val buttonBackground:String = remoteConfig.getString("button_background")

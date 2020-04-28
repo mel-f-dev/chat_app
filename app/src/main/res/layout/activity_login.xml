@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0F4C81"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context=".registerlogin.LoginActivity">
 
@@ -50,37 +50,51 @@
         app:layout_constraintTop_toBottomOf="@+id/login_edittext_email" />
 
 
-    <LinearLayout
+    <Button
+        android:id="@+id/login_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:orientation="horizontal"
+        android:background="@drawable/rounded_button"
+        android:text="로그인"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/login_edittext_pw"
         app:layout_constraintStart_toStartOf="@+id/login_edittext_pw"
-        app:layout_constraintTop_toBottomOf="@+id/login_edittext_pw"
-        android:weightSum="2">
+        app:layout_constraintTop_toBottomOf="@+id/login_edittext_pw" />
 
-        <Button
-            android:id="@+id/login_btn"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:text="로그인"
-            android:textStyle="bold"
-            android:background="@drawable/rounded_button"
-            android:textColor="#ffffff" />
 
-        <Button
-            android:id="@+id/signup_btn"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_margin="5dp"
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/login_btn"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/login_btn"
+        app:layout_constraintTop_toBottomOf="@+id/login_btn"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아직 계정이 없으신가요?"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/register_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="회원가입"
-            android:textStyle="bold"
-            android:background="@drawable/rounded_button"
-            android:textColor="#ffffff"
-            android:layout_weight="1"/>
+            android:textColor="#FFEB3B"
+            android:textSize="14sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 

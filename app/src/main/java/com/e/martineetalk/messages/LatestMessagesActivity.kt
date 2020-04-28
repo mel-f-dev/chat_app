@@ -3,13 +3,24 @@ package com.e.martineetalk.messages
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.e.martineetalk.R
+import com.e.martineetalk.model.User
+import com.e.martineetalk.registerlogin.LoginActivity
 import com.e.martineetalk.registerlogin.RegisterActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class LatestMessagesActivity : AppCompatActivity() {
+
+    companion object {
+        var currentUser: User? = null
+    }
 
     private var auth = FirebaseAuth.getInstance()
 
@@ -17,7 +28,24 @@ class LatestMessagesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_latest_messages)
 
+        fetchCurrentUser()
+
         verifyUserIsLoggedIn()
+    }
+
+    private fun fetchCurrentUser() {
+        val uid = auth.uid
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                currentUser = p0.getValue(User::class.java)
+                Log.d("LatestMessages", "Current user ${currentUser?.profileImageUri}")
+            }
+        })
     }
 
     private fun verifyUserIsLoggedIn() {
@@ -37,7 +65,7 @@ class LatestMessagesActivity : AppCompatActivity() {
             }
             R.id.menu_log_out -> {
                 auth.signOut()
-                val intent = Intent(this, RegisterActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
 

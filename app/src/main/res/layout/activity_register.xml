@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     android:background="#0F4C81"
     android:orientation="vertical"
-    tools:context=".SignupActivity">
+    tools:context="registerlogin.RegisterActivity">
 
     <Button
         android:id="@+id/signup_selectphoto_btn"
@@ -99,6 +99,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/signup_btn_signup"
         app:layout_constraintHorizontal_bias="1.0"
@@ -110,20 +111,16 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="64dp"
-            android:layout_marginTop="32dp"
             android:text="이미 계정이 있으신가요?"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="8dp"/>
 
         <TextView
             android:id="@+id/already_have_account_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="64dp"
             android:text="로그인"
             android:textColor="#FFEB3B"
             android:textSize="14sp"
