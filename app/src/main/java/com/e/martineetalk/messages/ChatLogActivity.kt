@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.e.martineetalk.R
+import com.e.martineetalk.messages.LatestMessagesActivity.Companion.currentUser
 import com.e.martineetalk.model.ChatMessage
 import com.e.martineetalk.model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -49,7 +50,7 @@ class ChatLogActivity : AppCompatActivity() {
     private fun listenForMessages() {
         val fromId = FirebaseAuth.getInstance().uid
         val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
-        val toId = user.uid
+        val toId = user?.uid
         val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
 
         ref.addChildEventListener(object: ChildEventListener {
@@ -62,9 +63,11 @@ class ChatLogActivity : AppCompatActivity() {
                         val currentUser = LatestMessagesActivity.currentUser?: return
                         adapter.add(ChatFromItem(chatMessage.text, currentUser))
                     } else {
+
                         adapter.add(ChatToItem(chatMessage.text))
                     }
                 }
+                chatlog_recyclerview.scrollToPosition(adapter.itemCount -1)
             }
 
             override fun onCancelled(p0: DatabaseError) {
@@ -95,6 +98,13 @@ class ChatLogActivity : AppCompatActivity() {
         val toId = user.uid
 
         if (fromId == null) return
+
+
+//        val fromId = FirebaseAuth.getInstance().uid
+//        val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
+//        val toId = user.uid
+//
+//        if (fromId == null) return
 
 //        val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
         val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
@@ -139,6 +149,7 @@ class ChatFromItem(val text_from_user:String, val user: User): Item<GroupieViewH
         val uri = user.profileImageUri
         val targetImageView = viewHolder.itemView.imageView_from_row
         Picasso.get().load(uri).into(targetImageView)
+
     }
 
 }
@@ -149,6 +160,8 @@ class ChatToItem(val text_to_user:String): Item<GroupieViewHolder>() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_to_row.text = text_to_user
+
+
 
     }
 
